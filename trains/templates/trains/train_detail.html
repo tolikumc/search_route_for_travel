@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} Поїзд {% endblock %}
+{% block content %}
+    <h3 class="display-4 text-center mx-10">{{ train_detail.name }}</h3>
+    <div class="row">
+        <div class="col text-center">
+            <a href="{% url 'train:train_list'%}">
+                <button type="button" class="btn btn-outline-dark">Назад</button>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{% url 'train:update_train' pk=train_detail.pk %}">
+                <button type="button" class="btn btn-outline-warning">Редагувати</button>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{% url 'train:delete_train' pk=train_detail.pk %}">
+                <button type="button" class="btn btn-outline-danger">Видалити</button>
+            </a>
+        </div>
+    </div>
+    <div class="row mx-md-n50">
+
+        <table class="table table-hover mt-10">
+              <thead>
+                <tr class="text-center">
+                  <th scope="col">Місто Відправлення</th>
+                  <th scope="col">Місто прибуття</th>
+                  <th scope="col">Час в дорозі</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td>{{ train_detail.from_city }}</td>
+                  <td>{{ train_detail.to_city }}</td>
+                  <td>{{ train_detail.travel_time }} год.</td>
+                </tr>
+              </tbody>
+        </table>
+
+    </div>
+{% endblock %}
+
+

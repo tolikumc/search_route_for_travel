@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %} Потяги {% endblock %}
+{% block content %}
+    <h1 class="display-4 my-4 text-center">Потяги</h1>
+    <div class="row justify-content-center">
+            <form class="form-inline my-2 my-lg-0" action="{% url 'train:train_list' %}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Пошук</button>
+            </form>
+
+            <a href="{% url 'train:add_train' %}"><button class="btn btn-outline-success mx-2 my-sm-0">Додати</button></a>
+    </div>
+    <div class="row my-4 ">
+        <div class="col-md-6 mx-auto">
+            <table class="table table-striped">
+                <tbody>
+                    {% for train in page_object.object_list %}
+                        <tr>
+                        <td class="text-center"><a href="{% url 'train:train_detail' pk=train.pk %}">{{ train.name }}</a></td>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if is_paginated %}
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not prev_url %} disabled {% endif %}">
+                            <a class="page-link" href="{{ prev_url }}" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+
+
+                        {% for n in page_object.paginator.page_range %}
+
+                            {% if page_object.number == n %}
+
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="?page={{ n }}">{{ n }} <span class="sr-only">(current)</span></a>
+                                </li>
+
+                            {% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
+
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                                </li>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                        <li class="page-item {% if not next_url %} disabled {% endif %}">
+                            <a class="page-link" href="{{ next_url }}" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

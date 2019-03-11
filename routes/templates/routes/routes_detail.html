@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Маршрут {% endblock %}
+{% block content %}
+    <h3 class="display-4 text-center mx-10">{{ routes_detail.name }}</h3>
+    <div class="row">
+        <div class="col text-center">
+            <a href="{% url 'list_routes'%}">
+                <button type="button" class="btn btn-outline-dark">Назад</button>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{% url 'route_delete' pk=routes_detail.pk %}">
+                <button type="button" class="btn btn-outline-danger">Видалити</button>
+            </a>
+        </div>
+    </div>
+    <div class="row mt-2">
+
+        <table class="table table-hover mt-10">
+              <thead>
+                <tr class="text-center">
+                  <th scope="col">Назва</th>
+                  <th scope="col">Місто Відправлення</th>
+                  <th scope="col">Місто прибуття</th>
+                  <th scope="col">Час в дорозі</th>
+{#                  <th scope="col">Час в дорозі</th>#}
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td>{{ routes_detail.name }}</td>
+                  <td>{{ routes_detail.from_city }}</td>
+                  <td>{{ routes_detail.to_city }}</td>
+                  <td>{{ routes_detail.travel_times }} год.</td>
+{#                  <td>{% for across in routes_detail.across_cities.all %}#}
+{#                    {{ across }}#}
+{#                  {% endfor %}#}
+{#                  </td>#}
+                </tr>
+              </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

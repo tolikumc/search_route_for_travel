@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Редагування {% endblock %}
+{% block content %}
+    <h1 class="display-4 text-center">Редагувати потяг</h1>
+    <div class="row text-center" >
+        <div class="col-12 text-center">
+
+               <form action="" method="post">
+                   {% csrf_token %}
+                        {{ form.as_p }}
+                   <input type="submit" value="Сохранить" class="btn btn-outline-success mx-2 my-sm-0">
+                   <a href="{% url 'train:train_detail' pk=object.pk%}">
+                     <button type="button" class="btn btn-outline-dark">Назад</button>
+                   </a>
+               </form>
+
+        </div>
+    </div>
+
+{% endblock %}

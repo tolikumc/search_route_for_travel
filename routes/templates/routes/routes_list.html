@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Потяги {% endblock %}
+{% block content %}
+    <h1 class="display-4 my-4 text-center">Збережені маршрути</h1>
+
+    <div class="row my-4 ">
+        <div class="col-md-6 mx-auto">
+            <table class="table table-striped">
+                <tbody>
+                    {% for route in routes_list %}
+                        <tr>
+                        <td class="text-center"><a href="{% url 'routes_detail' pk=route.pk %}">{{ route.name }}</a></td>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

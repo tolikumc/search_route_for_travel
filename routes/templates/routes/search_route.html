@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}
+    Пошук маршруту
+{% endblock %}
+{% block content %}
+                    <h3 class="display-4 text-center my-4">Пошук маршруту</h3>
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+    <div class="row">
+
+            {% if routes %}
+                        {% if routes|length == 1 %}
+                            <div class="col-12 text-center">
+                                <h3> Маршрут з {{ cities.from_city }} в {{ cities.to_city }}</h3>
+                            </div>
+                        {% else %}
+                            <div class="col-12 text-center">
+                                <h3> Маршрути з {{ cities.from_city }} в {{ cities.to_city }}</h3>
+                            </div>
+                        {% endif %}
+
+                   {% for route in routes %}
+
+                                {% if forloop.first %}
+                                    <div class="col-12 text-center mt-4 mb-4">
+                                        <h5>Єдиний маршрут у вказаному напрямку</h5>
+                                    </div>
+                                {% endif %}
+
+                                        <div class="col-md-12 mt-4 mb-4 mx-auto">
+                                            <form action="{% url 'add_route' %}" method="get">
+                                               <input type="hidden" name="from_city" value="{{ route.from_city }}">
+                                               <input type="hidden" name="to_city" value="{{ route.to_city }}">
+                                               <input type="hidden" name="travel_time" value="{{ route.total_time }}">
+                                               <input type="hidden" name="across_cities" value="{% for train in route.route %}{{ train.id }}{% endfor %}">
+
+                                                <table class="table table-hover mt-10 m-3">
+                                                      <thead>
+                                                        <tr class="text-center">
+                                                            <th scope="col">Потяг №</th>
+                                                            <th scope="col">Місто відправлення</th>
+                                                            <th scope="col">Місто прибуття</th>
+                                                            <th scope="col">Час в дорозі</th>
+
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          {% for train in route.route %}
+
+                                                                <tr class="text-center">
+                                                                    <td>{{ train.name }}</td>
+                                                                    <td>{{ train.from_city }}</td>
+                                                                    <td>{{ train.to_city }}</td>
+                                                                    <td>{{ train.travel_time }} год.</td>
+
+                                                                </tr>
+                                                          {% endfor %}
+                                                      </tbody>
+                                                </table>
+                                                <button type="submit" class="btn btn-outline-success mx-2 my-sm-0">Зберегти</button>
+                                            </form>
+                                        </div>
+                   {% endfor %}
+            {% endif %}
+
+
+                    <div class="col-md-8 mx-auto">
+                        <form action="{% url 'find_routes' %}" method="post">
+                            {% csrf_token %}
+                                {{ forms.as_p }}
+                            <input type="submit" value="Пошук">
+                        </form>
+                    </div>
+    </div>
+{% endblock %}
